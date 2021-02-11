@@ -1,4 +1,4 @@
-package com.li.evooq.hospital.states;
+package com.li.interview.hospital.states;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
