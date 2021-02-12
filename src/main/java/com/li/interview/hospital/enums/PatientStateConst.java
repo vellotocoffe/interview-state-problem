@@ -1,18 +1,26 @@
 package com.li.interview.hospital.enums;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public enum PatientStateConst {
-	F("Fever", 2), D("Diabetes", 4), T("Tuberculosis", 3), X("Dead", 5), H("Healthy", 1);
+	F("Fever"), D("Diabetes"), T("Tuberculosis"), X("Dead"), H("Healthy");
 
 	private String fullName;
-	private Integer severityOrder;
 
-	private PatientStateConst(String fullName, Integer severityOrder) {
+	private PatientStateConst(String fullName) {
 		this.fullName = fullName;
-		this.severityOrder = severityOrder;
 	}
 
-	public Integer getSeverityOrder() {
-		return severityOrder;
+	public static List<PatientStateConst> toList(String statesStr) {
+		if (statesStr.isEmpty()) {
+			return Collections.<PatientStateConst>emptyList();
+		} else {
+			return Stream.of(statesStr.split(",")).map(state -> PatientStateConst.valueOf(state)).collect(Collectors.toList());
+		}
+
 	}
 
 }

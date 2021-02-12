@@ -1,59 +1,79 @@
 package com.li.interview.hospital.states;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
-import com.li.interview.hospital.enums.Drugs;
+import com.li.interview.hospital.Patient;
 import com.li.interview.hospital.enums.PatientStateConst;
-import com.li.interview.hospital.states.PatientState;
+import com.li.interview.hospital.rules.AntibioticCurTuberRule;
+import com.li.interview.hospital.rules.AspirinCurveFeverRule;
+import com.li.interview.hospital.rules.CalculatePatientSateRule;
+import com.li.interview.hospital.rules.InsulinMixAntiRule;
+import com.li.interview.hospital.rules.InsulinPreventDeadRule;
+import com.li.interview.hospital.rules.ParaMixAspirinRule;
+import com.li.interview.hospital.rules.ParacetamolCurFeverRule;
 
 public class PatientStateTests {
 
 	@Test
-	public void shouldBeDead_whenDiabetesAndNoInProvided() {
-		// given
-		PatientState dState = PatientState.getInstance("D");
-		List<Drugs> drugs = new ArrayList<>();
-		// then
-		assertTrue(dState.toDead(drugs));
+	public void testWhenPatientIsDead() {
+		Patient patient = new Patient(PatientStateConst.X);
+		Stream.of(new AntibioticCurTuberRule(), new AspirinCurveFeverRule(), new InsulinMixAntiRule(),
+				new InsulinPreventDeadRule(), new ParacetamolCurFeverRule(), new ParaMixAspirinRule()).forEach(rule -> {
+					rule.caculateState(patient);
+					assertTrue(patient.getCurrentState().equals(PatientStateConst.X));
+				});
 	}
 
 	@Test
-	public void shouldNotBeCurved_whenDiabetes() {
-		// given
-		PatientState dState = PatientState.getInstance("D");
-		// then
-		Stream.of(Drugs.values()).forEach(drug -> {
-			assertFalse(dState.toHealthy(Arrays.asList(drug)));
-		});
-
+	public void testAntibioticCurTuberRule() {
+		Patient patient = new Patient(PatientStateConst.T);
+		CalculatePatientSateRule rule = new AntibioticCurTuberRule();
+		rule.executeRule(patient);
+		assertTrue(patient.getCurrentState().equals(PatientStateConst.H));
 	}
 
 	@Test
-	public void shouldBeFever_whenBothInAndAnProvided() {
-		// given
-		PatientState dState = PatientState.getInstance("H");
-		List<Drugs> drugs = Arrays.asList(Drugs.I, Drugs.An);
-		// then
-		assertTrue(dState.toFever(drugs));
+	public void testAspirinCurveFeverRule() {
+		Patient patient = new Patient(PatientStateConst.F);
+		CalculatePatientSateRule rule = new AspirinCurveFeverRule();
+		rule.executeRule(patient);
+		assertTrue(patient.getCurrentState().equals(PatientStateConst.H));
 	}
 
 	@Test
-	public void shouldBeDead_whenBothPAndAsProvided() {
-		// given
-		List<Drugs> drugs = Arrays.asList(Drugs.P, Drugs.As);
-		// then
-		Stream.of(PatientStateConst.values()).forEach(stateConst -> {
-			PatientState dState = PatientState.getInstance(stateConst.toString());
-			assertTrue(dState.toDead(drugs));
-		});
+	public void testInsulinMixAntiRule() {
+		Patient patient = new Patient(PatientStateConst.H);
+		CalculatePatientSateRule rule = new InsulinMixAntiRule();
+		rule.executeRule(patient);
+		assertTrue(patient.getCurrentState().equals(PatientStateConst.F));
+	}
+
+	@Test
+	public void testParacetamolCurFeverRule() {
+		Patient patient = new Patient(PatientStateConst.F);
+		CalculatePatientSateRule rule = new ParacetamolCurFeverRule();
+		rule.executeRule(patient);
+		assertTrue(patient.getCurrentState().equals(PatientStateConst.H));
+	}
+
+	@Test
+	public void testParaMixAspirinRule() {
+		Patient patient = new Patient(PatientStateConst.F);
+		CalculatePatientSateRule rule = new ParaMixAspirinRule();
+		rule.executeRule(patient);
+		assertTrue(patient.getCurrentState().equals(PatientStateConst.X));
+	}
+
+	@Test
+	public void testInsulinPreventDeadRule() {
+		Patient patient = new Patient(PatientStateConst.D);
+		CalculatePatientSateRule rule = new InsulinPreventDeadRule();
+		rule.executeRule(patient);
+		assertTrue(patient.getCurrentState().equals(PatientStateConst.X));
 	}
 
 }
