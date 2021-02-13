@@ -5,6 +5,9 @@ import java.util.List;
 import com.li.interview.hospital.enums.Drugs;
 import com.li.interview.hospital.enums.PatientStateConst;
 
+import lombok.Data;
+
+@Data
 public class Patient {
 
 	private PatientStateConst currentState;
@@ -27,22 +30,6 @@ public class Patient {
 
 	public boolean isInState(PatientStateConst state) {
 		return this.currentState.equals(state);
-	}
-
-	public PatientStateConst getCurrentState() {
-		return currentState;
-	}
-
-	public void setCurrentState(PatientStateConst currentState) {
-		this.currentState = currentState;
-	}
-
-	public List<Drugs> getReceivedDrugs() {
-		return receivedDrugs;
-	}
-
-	public void setReceivedDrugs(List<Drugs> receivedDrugs) {
-		this.receivedDrugs = receivedDrugs;
 	}
 
 }

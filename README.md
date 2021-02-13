@@ -23,3 +23,9 @@ State transition logic are encapsulated in dedicated State classes which favors 
 - But the code will become difficult to maintain and exends when a huge amount of new states will be added.
 
 ### Second version based on Rule&Rule engine pattern which resolves these limitations.
+
+
+
+##  How to Run
+mvn spring-boot:run -Dspring-boot.run.arguments="D,F"
+- Please configure Lombok for your IDE, otherwise you get compiler errors.
