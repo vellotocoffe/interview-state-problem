@@ -4,19 +4,24 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
 
 import com.li.interview.hospital.enums.Drugs;
 import com.li.interview.hospital.enums.PatientStateConst;
-import com.li.interview.hospital.rules.AntibioticCurTuberRule;
-import com.li.interview.hospital.rules.AspirinCurveFeverRule;
 import com.li.interview.hospital.rules.CalculatePatientSateRule;
-import com.li.interview.hospital.rules.InsulinMixAntiRule;
-import com.li.interview.hospital.rules.InsulinPreventDeadRule;
-import com.li.interview.hospital.rules.ParaMixAspirinRule;
-import com.li.interview.hospital.rules.ParacetamolCurFeverRule;
 
+@Service
 public class HispitalRulesEngine {
+
+	private ApplicationContext ctx;
+	
+	@Autowired
+	public HispitalRulesEngine(ApplicationContext ctx) {
+		this.ctx = ctx;
+	}
 
 	private static final Map<PatientStateConst, Long> PRINT_TEMPLATE = new LinkedHashMap<>();
 
@@ -28,16 +33,12 @@ public class HispitalRulesEngine {
 		PRINT_TEMPLATE.put(PatientStateConst.X, 0L);
 	}
 
-	public static List<CalculatePatientSateRule> buildRules(List<Drugs> drugsList) {
-
-		return Stream
-				.of(new AntibioticCurTuberRule(), new AspirinCurveFeverRule(), new InsulinMixAntiRule(),
-						new InsulinPreventDeadRule(), new ParacetamolCurFeverRule(), new ParaMixAspirinRule())
+	public List<CalculatePatientSateRule> buildRules(List<Drugs> drugsList) {
+		return ctx.getBeansOfType(CalculatePatientSateRule.class).values().stream()
 				.filter(rule -> rule.isRuleActive(drugsList)).collect(Collectors.toList());
-
 	}
 
-	public static void calculatePatientState(List<PatientStateConst> states, List<Drugs> drugsList) {
+	public void calculatePatientState(List<PatientStateConst> states, List<Drugs> drugsList) {
 		List<Patient> patients = states.stream().map(state -> new Patient(state, drugsList))
 				.collect(Collectors.toList());
 

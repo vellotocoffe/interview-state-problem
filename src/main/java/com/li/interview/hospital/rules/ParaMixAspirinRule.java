@@ -6,6 +6,8 @@ import com.li.interview.hospital.Patient;
 import com.li.interview.hospital.enums.Drugs;
 import com.li.interview.hospital.enums.PatientStateConst;
 
+
+@PatientStateRule
 public class ParaMixAspirinRule extends CalculatePatientSateRule {
 
 	@Override
