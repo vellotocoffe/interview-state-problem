@@ -1,4 +1,4 @@
-# interview-patients-state-problem
+# An inverview coding problem "Patient state simulation"
 
 ##  Problem description
 
