@@ -6,11 +6,11 @@ You were asked by a doctor friend to prepare for her a “Hospital simulator”,
 simulate the future patients’ state, based on their current state and a list of drugs they take.
 
 Drugs effects are described by the following rules:
-● Aspirin cures Fever;
-● Antibiotic cures Tuberculosis;
-● Insulin prevents diabetic subject from dying, does not cure Diabetes;
-● If insulin is mixed with antibiotic, healthy people catch Fever;
-● Paracetamol cures Fever;
+- Aspirin cures Fever;
+- Antibiotic cures Tuberculosis;
+- Insulin prevents diabetic subject from dying, does not cure Diabetes;
+- If insulin is mixed with antibiotic, healthy people catch Fever;
+- Paracetamol cures Fever;
 ......
 
 
