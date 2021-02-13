@@ -1,5 +1,10 @@
 # An inverview coding problem "Patient state simulation"
 
+## About
+I hidden the problem description details but just provide an overall description.
+Please not that the code here is just for showing a possible implementation of Rule Engine design patter.
+
+
 ##  Problem description
 
 You were asked by a doctor friend to prepare for her a “Hospital simulator”, which can
@@ -13,16 +18,23 @@ Drugs effects are described by the following rules:
 - Paracetamol cures Fever;
 ......
 
+Note that new drugs and new states can be added in the future, as well as the new rules.
+So it's important to provide extensible codes.
 
 ##  About the code
 ### First version Based on "State" behavioral design-pattern.
+At the beginning, i was thinking about using state pattern, because it's quite similar to "Post office package tracking problem".
+The reasons are :
 State transition logic are encapsulated in dedicated State classes which favors :
 - Single Responsibility Principle
 - Open/Closed Principle
 
 - But the code will become difficult to maintain and exends when a huge amount of new states will be added.
 
-### Second version based on Rule&Rule engine pattern which resolves these limitations.
+### Second version based on Rule & Rule Engine pattern which resolves these limitations.
+The advantages are
+- Better "S" principle application
+- Rules can be reused and be combined
 
 
 
